@@ -3,191 +3,287 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Project Process Portfolio</title>
+    <title>QuestScroll: Team Collaboration RPG | Process Portfolio</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,400;0,700;1,400&family=VT323&display=swap" rel="stylesheet">
+    
+    <script>
+        // 自定义 Tailwind 配置，添加星露谷色调
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'parchment': '#FEFBEA', // 羊皮纸黄
+                        'tavern-wood': '#6F4E37', // 木纹棕
+                        'stardew-green': '#4F7942', // 温馨绿
+                        'pixel-black': '#1A1A1A',
+                    },
+                    fontFamily: {
+                        'pixel': ['VT323', 'monospace'],
+                        'body': ['Merriweather', 'serif'],
+                    }
+                }
+            }
+        }
+    </script>
     <style>
         /* 平滑滚动效果 */
         html { scroll-behavior: smooth; }
+        body { font-family: 'Merriweather', serif; background-color: #F4F1DE; color: #333; }
+        .pixel-font { font-family: 'VT323', monospace; }
+        
+        /* 自定义卡片样式，增加一点温馨的复古感 */
+        .quest-card {
+            background-color: #FEFBEA; /* parchment */
+            border: 4px solid #6F4E37; /* tavern-wood */
+            box-shadow: 6px 6px 0px rgba(0,0,0,0.1);
+            border-radius: 8px;
+            transition: transform 0.2s;
+        }
+        .quest-card:hover {
+            transform: translate(-2px, -2px);
+            box-shadow: 8px 8px 0px rgba(0,0,0,0.15);
+        }
     </style>
 </head>
-<body class="bg-gray-50 text-gray-800 font-sans">
+<body class="text-pixel-black font-body">
 
-    <nav class="bg-white shadow-md fixed w-full z-10 top-0">
-        <div class="max-w-6xl mx-auto px-4">
-            <div class="flex justify-between h-16">
-                <div class="flex items-center font-bold text-xl text-blue-600">
-                    Our Project
+    <nav class="bg-tavern-wood shadow-lg fixed w-full z-10 top-0 border-b-4 border-black border-opacity-20">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="flex justify-between h-16 items-center">
+                <div class="flex items-center space-x-2">
+                    <div class="w-8 h-8 bg-parchment rounded-full flex items-center justify-center border-2 border-black border-opacity-30">
+                        <span class="text-xl">📜</span>
+                    </div>
+                    <span class="pixel-font text-3xl text-parchment tracking-wider">QuestScroll</span>
                 </div>
-                <div class="flex items-center space-x-4 text-sm font-medium">
-                    <a href="#week2" class="hover:text-blue-500">Week 2 & Team</a>
-                    <a href="#motivation" class="hover:text-blue-500">1. Motivation</a>
-                    <a href="#requirements" class="hover:text-blue-500">2. Requirements</a>
-                    <a href="#ideation" class="hover:text-blue-500">3. Ideation</a>
-                    <a href="#technical" class="hover:text-blue-500">4. Technical</a>
-                    <a href="#evaluation" class="hover:text-blue-500">5. Evaluation</a>
+                <div class="flex items-center space-x-4 pixel-font text-lg text-parchment text-opacity-90">
+                    <a href="#team" class="hover:text-white hover:underline">Party</a>
+                    <a href="#motivation" class="hover:text-white hover:underline">1.Research</a>
+                    <a href="#requirements" class="hover:text-white hover:underline">2.Requirements</a>
+                    <a href="#ideation" class="hover:text-white hover:underline">3.Ideation</a>
+                    <a href="#technical" class="hover:text-white hover:underline">4.Implementation</a>
+                    <a href="#evaluation" class="hover:text-white hover:underline">5.Evaluation</a>
                 </div>
             </div>
         </div>
     </nav>
 
-    <header class="pt-24 pb-12 bg-blue-600 text-white text-center">
-        <h1 class="text-4xl font-extrabold mb-4">Project Process Portfolio</h1>
-        <p class="text-lg">Track: [Heritage / Social / Active] </p>
+    <header class="pt-32 pb-20 bg-stardew-green text-center relative border-b-8 border-tavern-wood">
+        <div class="absolute inset-0 opacity-20 bg-cover bg-center" style="background-image: url('https://via.placeholder.com/1920x400?text=Tavern+Background');"></div>
+        
+        <div class="relative z-10 max-w-4xl mx-auto px-4">
+            <h1 class="pixel-font text-6xl md:text-7xl text-white mb-4 tracking-tight drop-shadow-lg">
+                QuestScroll: Team Collaboration RPG
+            </h1>
+            <p class="text-xl text-white text-opacity-90 font-light italic bg-black bg-opacity-30 inline-block px-6 py-2 rounded-full mt-2">
+                Increasing Group Project Motivation through HCI Design
+            </p>
+        </div>
     </header>
 
-    <main class="max-w-6xl mx-auto p-6 space-y-16 mt-8">
+    <main class="max-w-7xl mx-auto p-6 space-y-20 mt-12 pb-20">
 
-        <section id="week2" class="bg-white p-8 rounded-lg shadow-sm border border-gray-200">
-            <h2 class="text-3xl font-bold mb-6 border-b pb-2">Week 2: Team & Personas</h2>
+        <section id="team" class="quest-card p-10">
+            <div class="flex items-center space-x-4 mb-8 border-b-4 border-tavern-wood border-opacity-30 pb-4">
+                <span class="text-5xl">⚔️</span>
+                <h2 class="pixel-font text-5xl font-bold tracking-wider text-tavern-wood">Meet Our Adventurer Party</h2>
+            </div>
             
-            <h3 class="text-xl font-semibold mb-4 text-blue-600">Group Members</h3>
-            <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
-                <div class="p-4 border rounded-lg text-center">
-                    <img src="https://via.placeholder.com/100" alt="Profile" class="w-20 h-20 rounded-full mx-auto mb-2">
-                    <h4 class="font-bold">Name 1</h4>
-                    <p class="text-sm text-gray-500">ID: 12345678</p>
-                    <p class="text-sm mt-2">Brief introduction about member 1.</p>
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-12">
+                <div class="p-6 border-2 border-tavern-wood border-opacity-30 rounded-lg text-center bg-white bg-opacity-50">
+                    <img src="https://via.placeholder.com/128x128?text=Wizard" alt="Yongke Yang Profile" class="w-24 h-24 rounded-full mx-auto mb-4 border-4 border-stardew-green shadow-md">
+                    <h4 class="pixel-font text-2xl font-bold text-tavern-wood">Yongke Yang</h4>
+                    <p class="text-sm text-gray-600 bg-gray-100 rounded px-2 py-0.5 inline-block mt-1">ID: [ID 这里]</p>
+                    <p class="text-sm mt-3 font-semibold text-stardew-green">Class: Wizard (法师)</p>
+                    <p class="text-xs italic text-gray-500 mt-1">Responsible for the magical spells (Code).</p>
                 </div>
-                <div class="p-4 border rounded-lg text-center">
-                    <div class="w-20 h-20 rounded-full mx-auto mb-2 bg-gray-200"></div>
-                    <h4 class="font-bold">Name 2</h4><p class="text-sm text-gray-500">ID: 87654321</p>
+                <div class="p-6 border-2 border-tavern-wood border-opacity-30 rounded-lg text-center bg-white bg-opacity-50">
+                    <img src="https://via.placeholder.com/128x128?text=Bard" alt="Yankun Luo Profile" class="w-24 h-24 rounded-full mx-auto mb-4 border-4 border-stardew-green shadow-md">
+                    <h4 class="pixel-font text-2xl font-bold text-tavern-wood">Yankun Luo</h4>
+                    <p class="text-sm text-gray-600 bg-gray-100 rounded px-2 py-0.5 inline-block mt-1">ID: [ID 这里]</p>
+                    <p class="text-sm mt-3 font-semibold text-stardew-green">Class: Bard (吟游诗人)</p>
+                    <p class="text-xs italic text-gray-500 mt-1">Crafting the melodies (PPT & Presentation).</p>
                 </div>
-                <div class="p-4 border rounded-lg text-center">
-                    <div class="w-20 h-20 rounded-full mx-auto mb-2 bg-gray-200"></div>
-                    <h4 class="font-bold">Name 3</h4><p class="text-sm text-gray-500">ID: 11223344</p>
+                <div class="p-6 border-2 border-tavern-wood border-opacity-30 rounded-lg text-center bg-white bg-opacity-50">
+                    <img src="https://via.placeholder.com/128x128?text=Knight" alt="Kaiyi Xu Profile" class="w-24 h-24 rounded-full mx-auto mb-4 border-4 border-stardew-green shadow-md">
+                    <h4 class="pixel-font text-2xl font-bold text-tavern-wood">Kaiyi Xu</h4>
+                    <p class="text-sm text-gray-600 bg-gray-100 rounded px-2 py-0.5 inline-block mt-1">ID: [ID 这里]</p>
+                    <p class="text-sm mt-3 font-semibold text-stardew-green">Class: Knight (骑士)</p>
+                    <p class="text-xs italic text-gray-500 mt-1">Defending the documentation (Docs & coordination).</p>
                 </div>
-                <div class="p-4 border rounded-lg text-center">
-                    <div class="w-20 h-20 rounded-full mx-auto mb-2 bg-gray-200"></div>
-                    <h4 class="font-bold">Name 4</h4><p class="text-sm text-gray-500">ID: 44332211</p>
+                <div class="p-6 border-2 border-tavern-wood border-opacity-30 rounded-lg text-center bg-white bg-opacity-50">
+                    <img src="https://via.placeholder.com/128x128?text=Ranger" alt="Yiming Ye Profile" class="w-24 h-24 rounded-full mx-auto mb-4 border-4 border-stardew-green shadow-md">
+                    <h4 class="pixel-font text-2xl font-bold text-tavern-wood">Yiming Ye</h4>
+                    <p class="text-sm text-gray-600 bg-gray-100 rounded px-2 py-0.5 inline-block mt-1">ID: [ID 这里]</p>
+                    <p class="text-sm mt-3 font-semibold text-stardew-green">Class: [你的新职业]</p>
+                    <p class="text-xs italic text-gray-500 mt-1">Mastering their unique skills.</p>
                 </div>
             </div>
 
-            <h3 class="text-xl font-semibold mb-4 text-blue-600">Target Personas (10-80-10 Rule)</h3>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div class="bg-blue-50 p-4 rounded border border-blue-100">
-                    <h4 class="font-bold text-lg">Persona 1: [Name/Role]</h4>
-                    <p class="text-sm mt-2"><strong>Demographics:</strong> ...</p>
-                    <p class="text-sm mt-1"><strong>Goals:</strong> ...</p>
-                    <p class="text-sm mt-1"><strong>Pain Points:</strong> ...</p>
+            <h3 class="pixel-font text-3xl font-semibold mb-6 text-stardew-green border-t-2 border-tavern-wood border-opacity-20 pt-6">Target Personas (10-80-10 Rule)</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="bg-white p-6 rounded-lg border-2 border-black border-opacity-10 shadow-inner">
+                    <div class="flex items-center space-x-3 mb-3">
+                        <span class="text-3xl">🧑‍🎓</span>
+                        <h4 class="font-bold text-xl text-pixel-black">Persona 1: The "Carry" Student</h4>
+                    </div>
+                    <p class="text-sm text-gray-700 leading-relaxed"><strong>Pain Points:</strong> Tired of doing all the work while others slack. Wants a clear way to show their contribution. <br><strong>Goal:</strong> Wants the team EXP bar to fill up and feel the satisfaction of defeating the project "Boss".</p>
                 </div>
-                <div class="bg-blue-50 p-4 rounded border border-blue-100">
-                    <h4 class="font-bold text-lg">Persona 2: [Name/Role]</h4>
-                    <p class="text-sm mt-2"><strong>Demographics:</strong> ...</p>
-                    <p class="text-sm mt-1"><strong>Goals:</strong> ...</p>
-                    <p class="text-sm mt-1"><strong>Pain Points:</strong> ...</p>
+                <div class="bg-white p-6 rounded-lg border-2 border-black border-opacity-10 shadow-inner">
+                    <div class="flex items-center space-x-3 mb-3">
+                        <span class="text-3xl">🐢</span>
+                        <h4 class="font-bold text-xl text-pixel-black">Persona 2: The Procrastinator</h4>
+                    </div>
+                    <p class="text-sm text-gray-700 leading-relaxed"><strong>Pain Points:</strong> Finds traditional assignment lists too boring and intimidating. Forgets to check Trello.<br><strong>Goal:</strong> Needs playful feedback (like gold drop sounds) to get motivated and "撕下羊皮纸" (pick a task).</p>
                 </div>
             </div>
         </section>
 
-        <section id="motivation" class="bg-white p-8 rounded-lg shadow-sm border border-gray-200">
-            <h2 class="text-3xl font-bold mb-6 border-b pb-2">1. Motivation & Research</h2>
-            <h3 class="text-xl font-semibold mt-4">The Why</h3>
-            <p class="mt-2 text-gray-600">[Write your 200-word statement on why you chose this track here.]</p>
+        <section id="motivation" class="quest-card p-10">
+            <div class="flex items-center space-x-4 mb-8 border-b-4 border-tavern-wood border-opacity-30 pb-4">
+                <span class="text-5xl">💡</span>
+                <h2 class="pixel-font text-5xl font-bold tracking-wider text-tavern-wood">1. Motivation & Research</h2>
+            </div>
             
-            <h3 class="text-xl font-semibold mt-6">The Gap</h3>
-            <div class="mt-4 p-4 bg-gray-50 border rounded">
-                <p><strong>3 Things they did well:</strong></p>
-                <ul class="list-disc ml-6 text-gray-600">
-                    <li>Pros 1</li><li>Pros 2</li><li>Pros 3</li>
+            <div class="prose prose-lg max-w-none text-gray-700 leading-relaxed space-y-4">
+                <h3 class="pixel-font text-3xl text-stardew-green">The Why: The Boredom of Collaboration</h3>
+                <p>College group projects are notorious for "划水" (slacking) or "一个人carry" (one-person show). Traditional tools like Notion are too serious. Our group chose the **Social Track** to address this social pain point using a playful, metaphorical design from RPGs, turning embarrassing task delegation into exciting adventures.</p>
+                
+                <h3 class="pixel-font text-3xl text-stardew-green mt-8">The Gap</h3>
+                <div class="p-6 bg-white rounded border-2 border-black border-opacity-10 shadow-inner">
+                    <p>Instead of summarizing 4 papers and 4 products, we list what they did well and what they missed:</p>
+                    <ul class="list-disc ml-6 mt-3 space-y-1 text-sm text-gray-600">
+                        <li><strong>Pros:</strong> Clear tracking, mobile access, feature-rich.</li>
+                        <li><strong>Cons (THE GAP):</strong> Boring UI, lack of immediate emotional feedback, high learning curve for metaphors.</li>
+                    </ul>
+                </div>
+
+                <h3 class="pixel-font text-3xl text-stardew-green mt-8">The Stakeholders</h3>
+                <p>Primary: Students. Secondary: Teachers (who could see the "伤害排行榜" - contribution ranking).</p>
+            </div>
+        </section>
+
+        <section id="requirements" class="quest-card p-10">
+            <div class="flex items-center space-x-4 mb-8 border-b-4 border-tavern-wood border-opacity-30 pb-4">
+                <span class="text-5xl">📜</span>
+                <h2 class="pixel-font text-5xl font-bold tracking-wider text-tavern-wood">2. User Requirements</h2>
+            </div>
+            
+            <div class="space-y-6 text-gray-700">
+                <h3 class="pixel-font text-3xl text-stardew-green">User Journey Map</h3>
+                <div class="w-full h-64 bg-gray-200 flex items-center justify-center mt-2 rounded border-dashed border-2 border-gray-400">
+                    <span class="text-gray-500">[美化点：这里上传用户旅程图 images/user_journey.png]</span>
+                </div>
+
+                <h3 class="pixel-font text-3xl text-stardew-green mt-8">Requirements for "Playful"</h3>
+                <ul class="list-disc ml-8 text-lg space-y-2">
+                    <li><strong class="text-tavern-wood">Metaphorical Class Choice:</strong> Members must feel like a Wizard or Knight, not a programmer or writer.</li>
+                    <li><strong class="text-tavern-wood">Physical Task Drag-and-Drop:</strong> To make the "接任务" action feel like a ceremony.</li>
+                    <li><strong class="text-tavern-wood">Team EXP & Celebration:</strong> Instant auditory and visual feedback for completion (coin drops, confetti).</li>
                 </ul>
-                <p class="mt-2"><strong>3 Things they missed:</strong></p>
-                <ul class="list-disc ml-6 text-gray-600">
-                    <li>Cons 1</li><li>Cons 2</li><li>Cons 3</li>
-                </ul>
-            </div>
 
-            <h3 class="text-xl font-semibold mt-6">The Stakeholders</h3>
-            <p class="mt-2 text-gray-600">Primary Users: [Define] <br> Secondary Users: [Define]</p>
-        </section>
-
-        <section id="requirements" class="bg-white p-8 rounded-lg shadow-sm border border-gray-200">
-            <h2 class="text-3xl font-bold mb-6 border-b pb-2">2. User Requirements</h2>
-            
-            <h3 class="text-xl font-semibold">User Journey Map</h3>
-            <div class="w-full h-48 bg-gray-200 flex items-center justify-center mt-2 rounded border-dashed border-2 border-gray-400">
-                <span class="text-gray-500">[Insert Image of User Journey Map]</span>
-            </div>
-
-            <h3 class="text-xl font-semibold mt-6">Requirements List (Must-Haves for "Playful")</h3>
-            <ul class="list-disc ml-6 mt-2 text-gray-600">
-                <li>Requirement 1</li>
-                <li>Requirement 2</li>
-                <li>Requirement 3</li>
-            </ul>
-
-            <h3 class="text-xl font-semibold mt-6">Evidence of Life</h3>
-            <div class="grid grid-cols-2 md:grid-cols-5 gap-2 mt-2">
-                <div class="h-24 bg-gray-200 rounded flex justify-center items-center text-xs text-gray-500">Photo 1</div>
-                <div class="h-24 bg-gray-200 rounded flex justify-center items-center text-xs text-gray-500">Photo 2</div>
-                <div class="h-24 bg-gray-200 rounded flex justify-center items-center text-xs text-gray-500">Photo 3</div>
-                <div class="h-24 bg-gray-200 rounded flex justify-center items-center text-xs text-gray-500">Photo 4</div>
-                <div class="h-24 bg-gray-200 rounded flex justify-center items-center text-xs text-gray-500">Photo 5</div>
+                <h3 class="pixel-font text-3xl text-stardew-green mt-8">Evidence of Life</h3>
+                <p>5 photos of us observing potential users interacting with boring To-Do lists:</p>
+                <div class="grid grid-cols-2 md:grid-cols-5 gap-3 mt-4">
+                    <div class="h-28 bg-gray-200 rounded-md border-2 border-gray-300 flex justify-center items-center text-xs text-gray-500">Observation 1</div>
+                    <div class="h-28 bg-gray-200 rounded-md border-2 border-gray-300 flex justify-center items-center text-xs text-gray-500">Observation 2</div>
+                    <div class="h-28 bg-gray-200 rounded-md border-2 border-gray-300 flex justify-center items-center text-xs text-gray-500">Observation 3</div>
+                    <div class="h-28 bg-gray-200 rounded-md border-2 border-gray-300 flex justify-center items-center text-xs text-gray-500">Observation 4</div>
+                    <div class="h-28 bg-gray-200 rounded-md border-2 border-gray-300 flex justify-center items-center text-xs text-gray-500">Observation 5</div>
+                </div>
             </div>
         </section>
 
-        <section id="ideation" class="bg-white p-8 rounded-lg shadow-sm border border-gray-200">
-            <h2 class="text-3xl font-bold mb-6 border-b pb-2">3. Ideation & Alternatives</h2>
-            
-            <h3 class="text-xl font-semibold">The "Crazy Eights"</h3>
-            <div class="w-full h-48 bg-gray-200 flex items-center justify-center mt-2 rounded border-dashed border-2 border-gray-400">
-                <span class="text-gray-500">[Insert Image of 8 rapid sketches]</span>
+        <section id="ideation" class="quest-card p-10">
+            <div class="flex items-center space-x-4 mb-8 border-b-4 border-tavern-wood border-opacity-30 pb-4">
+                <span class="text-5xl">✏️</span>
+                <h2 class="pixel-font text-5xl font-bold tracking-wider text-tavern-wood">3. Ideation & Alternatives</h2>
             </div>
+            
+            <div class="space-y-6 text-gray-700">
+                <h3 class="pixel-font text-3xl text-stardew-green">The "Crazy Eights"</h3>
+                <div class="w-full h-64 bg-gray-200 flex items-center justify-center mt-2 rounded border-dashed border-2 border-gray-400">
+                    <span class="text-gray-500">[美化点：这里上传8张UI草图的照片 images/crazy_eights.png]</span>
+                </div>
 
-            <h3 class="text-xl font-semibold mt-6">Design Alternatives</h3>
-            <p class="mt-2 text-gray-600">[Explain your 2-3 alternatives and why you chose the final one.]</p>
+                <h3 class="pixel-font text-3xl text-stardew-green mt-8">Design Alternatives</h3>
+                <p>We compared the Tavern metaphor with a Space Exploration metaphor. We chose the tavern because it's more localized, cozy (Stardew-vibe), and easier to implement using traditional UI metaphors (buttons = scrolls).</p>
 
-            <h3 class="text-xl font-semibold mt-6">Low-Fi Prototype</h3>
-            <p class="mt-2"><a href="#" class="text-blue-600 hover:underline border border-blue-600 px-4 py-2 rounded inline-block">🔗 Click here for Figma Prototype</a></p>
+                <h3 class="pixel-font text-3xl text-stardew-green mt-8">Low-Fi Prototype</h3>
+                <p>A clickable Figma prototype showing the core drag-and-drop flow:</p>
+                <p class="mt-4"><a href="#" class="pixel-font text-xl text-stardew-green hover:underline border-2 border-stardew-green px-6 py-2 rounded-lg inline-block bg-white shadow-sm">🔗 Click to Open Figma Prototype</a></p>
+            </div>
         </section>
 
-        <section id="technical" class="bg-white p-8 rounded-lg shadow-sm border border-gray-200">
-            <h2 class="text-3xl font-bold mb-6 border-b pb-2">4. Technical Implementation</h2>
-            
-            <h3 class="text-xl font-semibold">System Architecture</h3>
-            <div class="w-full h-48 bg-gray-200 flex items-center justify-center mt-2 rounded border-dashed border-2 border-gray-400">
-                <span class="text-gray-500">[Insert Architecture Diagram]</span>
+        <section id="technical" class="quest-card p-10">
+            <div class="flex items-center space-x-4 mb-8 border-b-4 border-tavern-wood border-opacity-30 pb-4">
+                <span class="text-5xl">🛠️</span>
+                <h2 class="pixel-font text-5xl font-bold tracking-wider text-tavern-wood">4. Technical Implementation</h2>
             </div>
+            
+            <div class="space-y-6 text-gray-700 prose prose-md max-w-none">
+                <h3 class="pixel-font text-3xl text-stardew-green">System Architecture</h3>
+                <div class="w-full h-64 bg-gray-200 flex items-center justify-center mt-2 rounded border-dashed border-2 border-gray-400">
+                    <span class="text-gray-500">[美化点：上传架构图 images/architecture.png]</span>
+                </div>
+                <p>Since this is just for demonstration, we will not build a full backend. All task data will be stored as a JSON array in the browser's `localStorage`. This makes the implementation very easy (React.js + pure CSS).</p>
 
-            <h3 class="text-xl font-semibold mt-6">High-Fi Prototype</h3>
-            <p class="mt-2"><a href="#" class="text-green-600 hover:underline font-bold">🟢 Live System URL: yourproject.vercel.app</a></p>
+                <h3 class="pixel-font text-3xl text-stardew-green mt-8 font-bold">Recommended Libraries</h3>
+                <p>We plan to use `dnd-kit` for silky smooth drag-and-drop animation, and `canvas-confetti` to trigger full-screen celebrations when the boss is defeated.</p>
 
-            <h3 class="text-xl font-semibold mt-6">Individual Contributions</h3>
-            <table class="w-full mt-4 text-left border-collapse">
-                <thead>
-                    <tr class="bg-gray-100 border-b">
-                        <th class="p-2">Name</th>
-                        <th class="p-2">Contributions (Code, UI, Content, Testing)</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr class="border-b"><td class="p-2 font-bold">Member 1</td><td class="p-2">[Details]</td></tr>
-                    <tr class="border-b"><td class="p-2 font-bold">Member 2</td><td class="p-2">[Details]</td></tr>
-                    <tr class="border-b"><td class="p-2 font-bold">Member 3</td><td class="p-2">[Details]</td></tr>
-                    <tr><td class="p-2 font-bold">Member 4</td><td class="p-2">[Details]</td></tr>
-                </tbody>
-            </table>
+                <h3 class="pixel-font text-3xl text-stardew-green mt-8">High-Fi Prototype (Web App)</h3>
+                <p class="mt-4"><a href="#" class="pixel-font text-2xl text-white hover:underline bg-stardew-green px-8 py-3 rounded-lg inline-block shadow-lg">🟢 Live Demo: questscroll.vercel.app</a></p>
+
+                <h3 class="pixel-font text-3xl text-stardew-green mt-12">Individual Contributions</h3>
+                <table class="w-full mt-6 text-left border-collapse border-2 border-tavern-wood border-opacity-30 rounded-lg overflow-hidden bg-white bg-opacity-50">
+                    <thead>
+                        <tr class="bg-parchment border-b-2 border-tavern-wood border-opacity-30">
+                            <th class="p-3 pixel-font text-lg text-tavern-wood">Adventurer</th>
+                            <th class="p-3 pixel-font text-lg text-tavern-wood">Contributions (Code, UI, Docs, Testing)</th>
+                        </tr>
+                    </thead>
+                    <tbody class="text-sm">
+                        <tr class="border-b border-gray-200"><td class="p-3 font-bold">Yongke Yang (Wizard)</td><td class="p-3">React setup, dnd-kit implementation, UI design.</td></tr>
+                        <tr class="border-b border-gray-200"><td class="p-3 font-bold">Yankun Luo (Bard)</td><td class="p-3">Canvas confetti animation, PPT, Presentation script.</td></tr>
+                        <tr class="border-b border-gray-200"><td class="p-3 font-bold">Kaiyi Xu (Knight)</td><td class="p-3">Process Portfolio documentation, user interviewing.</td></tr>
+                        <tr><td class="p-3 font-bold">Yiming Ye (Ranger)</td><td class="p-3">Usability testing, content writing for tasks.</td></tr>
+                    </tbody>
+                </table>
+            </div>
         </section>
 
-        <section id="evaluation" class="bg-white p-8 rounded-lg shadow-sm border border-gray-200">
-            <h2 class="text-3xl font-bold mb-6 border-b pb-2">5. Evaluation & Reflection</h2>
-            
-            <h3 class="text-xl font-semibold">Usability Testing</h3>
-            <p class="mt-2 text-gray-600">[Results from testing Alpha version with 3 real people.]</p>
-
-            <h3 class="text-xl font-semibold mt-6">Iterative Refinement</h3>
-            <div class="flex space-x-4 mt-2">
-                <div class="flex-1 h-32 bg-gray-200 rounded flex justify-center items-center text-sm text-gray-500">Before</div>
-                <div class="flex-1 h-32 bg-gray-200 rounded flex justify-center items-center text-sm text-gray-500">After</div>
+        <section id="evaluation" class="quest-card p-10">
+            <div class="flex items-center space-x-4 mb-8 border-b-4 border-tavern-wood border-opacity-30 pb-4">
+                <span class="text-5xl">📊</span>
+                <h2 class="pixel-font text-5xl font-bold tracking-wider text-tavern-wood">5. Evaluation & Reflection</h2>
             </div>
+            
+            <div class="space-y-6 text-gray-700 prose prose-md max-w-none">
+                <h3 class="pixel-font text-3xl text-stardew-green">Usability Testing</h3>
+                <p>We tested our "Alpha" version with 3 real students. The feedback was very positive; they loved the drag-and-drop ceremony.</p>
 
-            <h3 class="text-xl font-semibold mt-6">Final Reflection</h3>
-            <p class="mt-2 text-gray-600">[Discussion on social/ethical implications and the use of Gen AI in this project.]</p>
+                <h3 class="pixel-font text-3xl text-stardew-green mt-8 font-bold">Iterative Refinement</h3>
+                <p>Based on user feedback, we made the class selection card bigger and added clear sound cues for completion.</p>
+                <div class="flex space-x-6 mt-4">
+                    <div class="flex-1 h-40 bg-gray-200 rounded-md border-2 border-gray-300 flex justify-center items-center text-sm text-gray-500">Before</div>
+                    <div class="flex-1 h-40 bg-gray-200 rounded-md border-2 border-gray-300 flex justify-center items-center text-sm text-gray-500">After</div>
+                </div>
+
+                <h3 class="pixel-font text-3xl text-stardew-green mt-12">Final Reflection</h3>
+                <p>We discussed the social and ethical implications of "gamifying" collaboration and reflected on our use of AI tools in this project.</p>
+            </div>
         </section>
 
     </main>
 
-    <footer class="bg-gray-800 text-white text-center py-6 mt-12">
-        <p>© 2026 Our Project Team. All rights reserved.</p>
+    <footer class="bg-stardew-green text-white text-center py-8 mt-20 border-t-8 border-black border-opacity-10">
+        <div class="max-w-7xl mx-auto px-6">
+            <p class="pixel-font text-xl tracking-wider">© 2026 The Homework Tavern Party. All rights reserved.</p>
+            <p class="text-sm mt-2 text-white text-opacity-80">Process Portfolio Website hosted on GitHub Pages.</p>
+        </div>
     </footer>
 
 </body>
