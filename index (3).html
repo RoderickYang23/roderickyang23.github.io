@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QuestScroll: Team Collaboration RPG | Process Portfolio</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,400;0,700;1,400&family=VT323&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'parchment': '#FEFBEA',
+                        'tavern-wood': '#6F4E37',
+                        'stardew-green': '#4F7942',
+                        'pixel-black': '#1A1A1A',
+                        'sky-blue': '#7CC7F2',
+                        'gold-coin': '#F4C542',
+                        'hp-red': '#D95C5C',
+                        'mana-blue': '#4B7BEC',
+                        'grass': '#8DB255',
+                        'soil': '#7B5E3B'
+                    },
+                    fontFamily: {
+                        'pixel': ['VT323', 'monospace'],
+                        'body': ['Merriweather', 'serif'],
+                    },
+                    boxShadow: {
+                        'pixel': '0 0 0 3px #1A1A1A, 6px 6px 0 0 rgba(26,26,26,0.30)',
+                        'pixel-soft': '0 0 0 3px rgba(26,26,26,0.85), 4px 4px 0 0 rgba(26,26,26,0.16)',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        html { scroll-behavior: smooth; }
+        :root {
+            --pixel-black: #1A1A1A;
+            --parchment: #FEFBEA;
+            --wood: #6F4E37;
+            --green: #4F7942;
+            --sky: #7CC7F2;
+            --gold: #F4C542;
+            --soil: #7B5E3B;
+            --grass: #8DB255;
+        }
+        * { box-sizing: border-box; }
+        body {
+            font-family: 'Merriweather', serif;
+            color: #2A2A2A;
+            background:
+                linear-gradient(to bottom, #8fd6ff 0 280px, #d7f3ff 280px 460px, #9ed06b 460px 100%),
+                #d7f3ff;
+            position: relative;
+            overflow-x: hidden;
+        }
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            opacity: 0.18;
+            background-image:
+                linear-gradient(rgba(255,255,255,.22) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,.22) 1px, transparent 1px);
+            background-size: 16px 16px;
+            mix-blend-mode: soft-light;
+            z-index: 1;
+        }
+        .pixel-font { font-family: 'VT323', monospace; letter-spacing: .03em; }
+        .pixel-panel {
+            background: var(--parchment);
+            border: 4px solid var(--pixel-black);
+            border-radius: 0;
+            box-shadow: 0 0 0 4px rgba(111,78,55,.25) inset, 8px 8px 0 rgba(26,26,26,.22);
+            position: relative;
+        }
+        .pixel-panel::before {
+            content: "";
+            position: absolute;
+            inset: 8px;
+            border: 2px dashed rgba(111,78,55,0.35);
+            pointer-events: none;
+        }
+        .quest-card {
+            background:
+                linear-gradient(180deg, rgba(255,255,255,.55), rgba(255,255,255,.05)),
+                var(--parchment);
+            border: 4px solid var(--pixel-black);
+            box-shadow: 0 0 0 5px rgba(111,78,55,.18) inset, 10px 10px 0 rgba(26,26,26,.18);
+            border-radius: 0;
+            transition: transform .18s ease, box-shadow .18s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        .quest-card::after {
+            content: "";
+            position: absolute;
+            inset: auto 0 0 0;
+            height: 14px;
+            background:
+                linear-gradient(90deg,
+                    var(--soil) 0 16px,
+                    #8b6b42 16px 32px,
+                    var(--soil) 32px 48px,
+                    #8b6b42 48px 64px);
+            background-size: 64px 14px;
+            opacity: .95;
+        }
+        .quest-card:hover {
+            transform: translate(-3px, -3px);
+            box-shadow: 0 0 0 5px rgba(111,78,55,.18) inset, 14px 14px 0 rgba(26,26,26,.22);
+        }
+        .pixel-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: .45rem;
+            padding: .25rem .65rem;
+            border: 3px solid var(--pixel-black);
+            background: #fff8cf;
+            box-shadow: 3px 3px 0 rgba(26,26,26,.14);
+            font-family: 'VT323', monospace;
+            font-size: 1.25rem;
+            line-height: 1;
+        }
+        .pixel-btn {
+            display: inline-block;
+            border: 3px solid var(--pixel-black);
+            background: linear-gradient(180deg, #fff3a8, #f4c542);
+            color: #2a2a2a;
+            font-family: 'VT323', monospace;
+            font-size: 1.75rem;
+            line-height: 1;
+            padding: .7rem 1.2rem;
+            box-shadow: 4px 4px 0 rgba(26,26,26,.22);
+            transition: transform .12s ease, box-shadow .12s ease;
+        }
+        .pixel-btn:hover { transform: translate(-2px,-2px); box-shadow: 6px 6px 0 rgba(26,26,26,.22); }
+        .pixel-btn.green { background: linear-gradient(180deg, #a7df81, #6fa84d); color: white; }
+        .pixel-slot {
+            border: 3px dashed rgba(26,26,26,.35);
+            background:
+                linear-gradient(180deg, rgba(255,255,255,.5), rgba(255,255,255,.1)),
+                #ece3c0;
+            min-height: 10rem;
+            position: relative;
+        }
+        .pixel-slot::before {
+            content: "IMAGE SLOT";
+            position: absolute;
+            top: .5rem;
+            right: .6rem;
+            font-family: 'VT323', monospace;
+            font-size: 1.1rem;
+            color: rgba(26,26,26,.45);
+            letter-spacing: .06em;
+        }
+        .hud-bar {
+            border: 3px solid var(--pixel-black);
+            background: rgba(255,255,255,.45);
+            height: 22px;
+            position: relative;
+            overflow: hidden;
+        }
+        .hud-fill { height: 100%; }
+        .cloud, .cloud.two {
+            position: absolute;
+            background: white;
+            width: 120px;
+            height: 38px;
+            border: 4px solid var(--pixel-black);
+            box-shadow: 6px 6px 0 rgba(26,26,26,.12);
+        }
+        .cloud::before, .cloud::after, .cloud.two::before, .cloud.two::after {
+            content: "";
+            position: absolute;
+            background: white;
+            border: 4px solid var(--pixel-black);
+        }
+        .cloud::before { width: 34px; height: 34px; left: 12px; top: -20px; }
+        .cloud::after { width: 44px; height: 44px; left: 46px; top: -26px; }
+        .cloud.two::before { width: 30px; height: 30px; left: 18px; top: -18px; }
+        .cloud.two::after { width: 38px; height: 38px; left: 58px; top: -20px; }
+        .pixel-avatar {
+            width: 94px;
+            height: 94px;
+            margin: 0 auto 1rem;
+            border: 4px solid var(--pixel-black);
+            image-rendering: pixelated;
+            background-size: cover;
+            background-position: center;
+            box-shadow: 4px 4px 0 rgba(26,26,26,.15);
+        }
+        .wizard { background-image: linear-gradient(180deg, #7f6af8 0 22%, #f2d2b6 22% 47%, #5f4bb6 47% 100%); }
+        .bard { background-image: linear-gradient(180deg, #ff91b9 0 22%, #f1d2b6 22% 47%, #d66a8f 47% 100%); }
+        .knight { background-image: linear-gradient(180deg, #9aa6b2 0 22%, #f0d3bb 22% 47%, #65707b 47% 100%); }
+        .ranger { background-image: linear-gradient(180deg, #7cb342 0 22%, #f2d1b3 22% 47%, #4f7942 47% 100%); }
+        .section-title {
+            text-shadow: 3px 3px 0 rgba(26,26,26,.08);
+        }
+        .nav-chip {
+            border: 2px solid rgba(255,255,255,.85);
+            padding: .2rem .55rem;
+            background: rgba(255,255,255,.1);
+        }
+        .inventory-grid > div {
+            border: 3px solid rgba(26,26,26,.25);
+            background: rgba(255,255,255,.58);
+            min-height: 112px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: .75rem;
+            position: relative;
+        }
+        .inventory-grid > div::after {
+            content: "★";
+            position: absolute;
+            left: 8px;
+            top: 4px;
+            color: rgba(26,26,26,.26);
+            font-size: 14px;
+        }
+        .pixel-table th, .pixel-table td { border: 2px solid rgba(26,26,26,.22); }
+        @media (max-width: 768px) {
+            .cloud, .cloud.two { display: none; }
+        }
+
+        .farm-banner {
+            background:
+                linear-gradient(180deg, rgba(255,255,255,.45), rgba(255,255,255,0)),
+                linear-gradient(0deg, #7b5e3b 0 22%, #8db255 22% 52%, #9fd8ff 52% 100%);
+            border: 4px solid var(--pixel-black);
+            box-shadow: 0 0 0 4px rgba(255,255,255,.25) inset, 8px 8px 0 rgba(26,26,26,.16);
+            min-height: 140px;
+            position: relative;
+            overflow: hidden;
+        }
+        .farm-banner::before {
+            content: "";
+            position: absolute;
+            inset: auto 0 28px 0;
+            height: 18px;
+            background:
+                repeating-linear-gradient(90deg, rgba(255,255,255,.18) 0 12px, transparent 12px 24px),
+                linear-gradient(0deg, #6ea04b, #8db255);
+            border-top: 3px solid rgba(26,26,26,.35);
+            border-bottom: 3px solid rgba(26,26,26,.2);
+        }
+        .farm-banner::after {
+            content: "☁️   🌲   🐔   🌻   🪵   🐮   🌾";
+            position: absolute;
+            left: 14px;
+            right: 14px;
+            top: 18px;
+            font-size: 28px;
+            letter-spacing: 8px;
+            opacity: .92;
+            white-space: nowrap;
+            overflow: hidden;
+        }
+        .section-stub {
+            min-height: 150px;
+            background: rgba(255,255,255,.48);
+            border: 4px dashed rgba(111,78,55,.5);
+            box-shadow: 0 0 0 4px rgba(255,255,255,.3) inset;
+            position: relative;
+            overflow: hidden;
+        }
+        .section-stub::before {
+            content: "🌻  🪵  🐣  🍎  🌿  🚜  🌼";
+            position: absolute;
+            left: 20px;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            text-align: center;
+            font-size: 28px;
+            letter-spacing: 10px;
+            opacity: .8;
+        }
+        .persona-board {
+            background: rgba(255,255,255,.68);
+            border: 4px solid var(--pixel-black);
+            box-shadow: 0 0 0 4px rgba(111,78,55,.18) inset, 8px 8px 0 rgba(26,26,26,.15);
+            padding: 18px;
+        }
+        .persona-grid { display:grid; grid-template-columns: 240px 1fr; gap: 18px; }
+        .portrait-card {
+            background: #f6edc8;
+            border: 4px solid var(--pixel-black);
+            box-shadow: 0 0 0 4px rgba(255,255,255,.25) inset;
+            overflow: hidden;
+        }
+        .portrait-pixel {
+            height: 230px;
+            image-rendering: pixelated;
+            background-size: cover;
+            background-position: center;
+        }
+        .portrait-slacker {
+            background:
+                linear-gradient(180deg, transparent 0 68%, #8db255 68% 100%),
+                radial-gradient(circle at 50% 30%, #f4d2a0 0 16%, transparent 16.5%),
+                radial-gradient(circle at 43% 28%, #1a1a1a 0 1.2%, transparent 1.4%),
+                radial-gradient(circle at 57% 28%, #1a1a1a 0 1.2%, transparent 1.4%),
+                linear-gradient(180deg, transparent 0 16%, #6b4226 16% 24%, transparent 24% 100%),
+                linear-gradient(180deg, transparent 0 36%, #6fa8dc 36% 62%, transparent 62% 100%),
+                linear-gradient(180deg, #98d7ff 0 68%, #8db255 68% 100%);
+        }
+        .portrait-teacher {
+            background:
+                linear-gradient(180deg, transparent 0 68%, #8db255 68% 100%),
+                radial-gradient(circle at 50% 30%, #f1cfaa 0 15%, transparent 15.5%),
+                radial-gradient(circle at 43% 28%, #1a1a1a 0 1.2%, transparent 1.4%),
+                radial-gradient(circle at 57% 28%, #1a1a1a 0 1.2%, transparent 1.4%),
+                linear-gradient(180deg, transparent 0 16%, #3b2b1a 16% 22%, transparent 22% 100%),
+                linear-gradient(180deg, transparent 0 34%, #6f4e37 34% 63%, transparent 63% 100%),
+                linear-gradient(180deg, #98d7ff 0 68%, #8db255 68% 100%);
+        }
+        .stat-chip {
+            display:inline-block; padding: 4px 10px; border: 3px solid var(--pixel-black); background:#ead7a5; font-size: 14px; margin: 0 8px 8px 0;
+        }
+        .mini-bar {height: 16px; border: 3px solid var(--pixel-black); background: #efe9d9; position: relative; overflow:hidden;}
+        .mini-bar > span {display:block; height:100%; background: linear-gradient(90deg, #c68bff, #8d5ce6);}
+        @media (max-width: 768px) {
+            .persona-grid { grid-template-columns: 1fr; }
+        }
+
+    </style>
+</head>
+<body class="text-pixel-black font-body">
+
+    <nav class="bg-tavern-wood shadow-lg fixed w-full z-20 top-0 border-b-4 border-black border-opacity-20">
+        <div class="max-w-7xl mx-auto px-4 md:px-6">
+            <div class="flex justify-between h-16 items-center gap-4">
+                <div class="flex items-center space-x-3">
+                    <div class="w-10 h-10 bg-parchment flex items-center justify-center border-4 border-black shadow-pixel-soft">
+                        <span class="text-xl">🎮</span>
+                    </div>
+                    <div>
+                        <span class="pixel-font text-3xl text-parchment tracking-wider leading-none block">QuestScroll</span>
+                        <span class="pixel-font text-base text-yellow-100/90 leading-none">PIXEL PARTY PORTFOLIO</span>
+                    </div>
+                </div>
+                <div class="hidden lg:flex items-center space-x-2 pixel-font text-lg text-parchment text-opacity-90">
+                    <a href="#team" class="nav-chip hover:bg-white/20">Party</a>
+                    <a href="#motivation" class="nav-chip hover:bg-white/20">1.Research</a>
+                    <a href="#requirements" class="nav-chip hover:bg-white/20">2.Requirements</a>
+                    <a href="#ideation" class="nav-chip hover:bg-white/20">3.Ideation</a>
+                    <a href="#technical" class="nav-chip hover:bg-white/20">4.Build</a>
+                    <a href="#evaluation" class="nav-chip hover:bg-white/20">5.Test</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <header class="pt-32 pb-20 text-center relative border-b-8 border-tavern-wood overflow-hidden">
+        <div class="cloud" style="top: 82px; left: 8%;"></div>
+        <div class="cloud two" style="top: 128px; right: 10%;"></div>
+
+        <div class="absolute inset-x-0 bottom-0 h-28" style="background:
+            linear-gradient(to bottom, transparent 0 36%, rgba(255,255,255,.12) 36% 45%, transparent 45% 100%),
+            linear-gradient(0deg, var(--soil) 0 34%, var(--grass) 34% 100%);
+            image-rendering: pixelated;"></div>
+
+        <div class="relative z-10 max-w-5xl mx-auto px-4">
+            <div class="pixel-panel max-w-4xl mx-auto px-6 py-8 md:px-10 md:py-10 bg-parchment/95">
+                <div class="flex flex-wrap justify-center gap-3 mb-5">
+                    <span class="pixel-badge">⭐ Social Track</span>
+                    <span class="pixel-badge">🗺️ RPG Metaphor</span>
+                    <span class="pixel-badge">👾 Pixel UI</span>
+                </div>
+                <h1 class="pixel-font text-6xl md:text-8xl text-tavern-wood mb-3 tracking-tight section-title leading-none">
+                    QuestScroll
+                </h1>
+                <p class="pixel-font text-3xl md:text-4xl text-pixel-black mb-5 leading-none">Team Collaboration RPG</p>
+                <p class="text-lg md:text-xl text-gray-800 font-light italic bg-white/70 inline-block px-5 py-2 border-2 border-black shadow-pixel-soft">
+                    Increasing Group Project Motivation through HCI Design
+                </p>
+
+                <div class="grid md:grid-cols-2 gap-5 mt-8 text-left">
+                    <div>
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="pixel-font text-2xl">TEAM EXP</span>
+                            <span class="pixel-font text-2xl">Lv.08</span>
+                        </div>
+                        <div class="hud-bar"><div class="hud-fill bg-gold-coin" style="width: 78%;"></div></div>
+                    </div>
+                    <div>
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="pixel-font text-2xl">PROJECT HP</span>
+                            <span class="pixel-font text-2xl">92%</span>
+                        </div>
+                        <div class="hud-bar"><div class="hud-fill bg-hp-red" style="width: 92%;"></div></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto p-4 md:p-6 space-y-14 mt-10 pb-20 relative z-10">
+
+        <section id="team" class="quest-card p-6 md:p-10">
+            <div class="flex flex-wrap items-center gap-4 mb-8 border-b-4 border-tavern-wood border-opacity-30 pb-4">
+                <span class="text-5xl">⚔️</span>
+                <h2 class="pixel-font text-5xl font-bold tracking-wider text-tavern-wood section-title">Meet Our Adventurer Party</h2>
+                <span class="pixel-badge">4 PLAYERS CONNECTED</span>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6 mb-12">
+                <div class="p-6 border-4 border-black rounded-none text-center bg-white/55 shadow-pixel-soft relative">
+                    <div class="pixel-avatar wizard"></div>
+                    <h4 class="pixel-font text-3xl font-bold text-tavern-wood">Yongke Yang</h4>
+                    <p class="pixel-font text-xl mt-2 text-stardew-green">Wizard</p>
+                    <p class="text-sm text-gray-600 bg-gray-100 border-2 border-black inline-block mt-2 px-2 py-0.5">ID: 2360840</p>
+                    <p class="text-xs italic text-gray-600 mt-4">Responsible for the magical spells (Code).</p>
+                </div>
+                <div class="p-6 border-4 border-black rounded-none text-center bg-white/55 shadow-pixel-soft relative">
+                    <div class="pixel-avatar bard"></div>
+                    <h4 class="pixel-font text-3xl font-bold text-tavern-wood">Yankun Luo</h4>
+                    <p class="pixel-font text-xl mt-2 text-stardew-green">Bard</p>
+                    <p class="text-sm text-gray-600 bg-gray-100 border-2 border-black inline-block mt-2 px-2 py-0.5">ID: 2363647</p>
+                    <p class="text-xs italic text-gray-600 mt-4">Crafting the melodies (PPT &amp; Presentation).</p>
+                </div>
+                <div class="p-6 border-4 border-black rounded-none text-center bg-white/55 shadow-pixel-soft relative">
+                    <div class="pixel-avatar knight"></div>
+                    <h4 class="pixel-font text-3xl font-bold text-tavern-wood">Kaiyi Xu</h4>
+                    <p class="pixel-font text-xl mt-2 text-stardew-green">Knight</p>
+                    <p class="text-sm text-gray-600 bg-gray-100 border-2 border-black inline-block mt-2 px-2 py-0.5">ID: 2361410</p>
+                    <p class="text-xs italic text-gray-600 mt-4">Defending the documentation (Docs &amp; coordination).</p>
+                </div>
+                <div class="p-6 border-4 border-black rounded-none text-center bg-white/55 shadow-pixel-soft relative">
+                    <div class="pixel-avatar ranger"></div>
+                    <h4 class="pixel-font text-3xl font-bold text-tavern-wood">Yiming Ye</h4>
+                    <p class="pixel-font text-xl mt-2 text-stardew-green">Ranger</p>
+                    <p class="text-sm text-gray-600 bg-gray-100 border-2 border-black inline-block mt-2 px-2 py-0.5">ID: 2360720</p>
+                    <p class="text-xs italic text-gray-600 mt-4">Mastering their unique skills.</p>
+                </div>
+            </div>
+
+            <div class="farm-banner mb-10"></div>
+
+            <div class="grid grid-cols-1 xl:grid-cols-2 gap-8">
+                <div class="persona-board">
+                    <div class="flex items-center gap-3 mb-4">
+                        <span class="text-3xl">🧑‍🌾</span>
+                        <h4 class="pixel-font text-4xl text-pixel-black">User Persona 1</h4>
+                    </div>
+                    <div class="persona-grid">
+                        <div>
+                            <div class="portrait-card">
+                                <div class="portrait-pixel portrait-slacker"></div>
+                                <div class="text-center px-3 py-2 bg-white/70 border-t-4 border-black text-sm">A student who is very good at 摆烂划水</div>
+                            </div>
+                            <div class="mt-4 border-4 border-black p-4 bg-parchment text-sm leading-7">
+                                <div><strong>Age:</strong> 20</div>
+                                <div><strong>Role:</strong> College student</div>
+                                <div><strong>Location:</strong> Suzhou, Jiangsu</div>
+                                <div><strong>Character:</strong> Delays tasks, low engagement, easily distracted</div>
+                            </div>
+                        </div>
+                        <div class="space-y-5">
+                            <div>
+                                <span class="stat-chip">late submission risk</span>
+                                <span class="stat-chip">low initiative</span>
+                                <span class="stat-chip">needs fun trigger</span>
+                            </div>
+                            <div>
+                                <h5 class="pixel-font text-3xl text-tavern-wood mb-2">Goals</h5>
+                                <ul class="list-disc ml-5 text-sm leading-7">
+                                    <li>Find assignments less boring and easier to start.</li>
+                                    <li>Get interested before feeling pressured.</li>
+                                    <li>See visible rewards for small progress.</li>
+                                    <li>Turn passive participation into active contribution.</li>
+                                </ul>
+                            </div>
+                            <div>
+                                <h5 class="pixel-font text-3xl text-tavern-wood mb-2">Frustrations</h5>
+                                <ul class="list-disc ml-5 text-sm leading-7">
+                                    <li>Traditional tools feel like cold checklists.</li>
+                                    <li>Long task boards create avoidance.</li>
+                                    <li>Cannot feel the impact of finishing a small task.</li>
+                                </ul>
+                            </div>
+                            <div>
+                                <h5 class="pixel-font text-3xl text-tavern-wood mb-2">Motivation</h5>
+                                <div class="space-y-2 text-sm">
+                                    <div>Incentive<div class="mini-bar mt-1"><span style="width:76%"></span></div></div>
+                                    <div>Fear<div class="mini-bar mt-1"><span style="width:30%"></span></div></div>
+                                    <div>Curiosity<div class="mini-bar mt-1"><span style="width:84%"></span></div></div>
+                                    <div>Social<div class="mini-bar mt-1"><span style="width:68%"></span></div></div>
+                                </div>
+                            </div>
+                            <div>
+                                <h5 class="pixel-font text-3xl text-tavern-wood mb-2">Bio</h5>
+                                <p class="text-sm leading-7">This student is not unwilling to contribute, but usually slips into low-energy, low-focus participation. The project is designed to activate interest first: by turning tasks into quests, progress into EXP, and contribution into visible rewards, the system lowers the emotional barrier to starting work.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="persona-board">
+                    <div class="flex items-center gap-3 mb-4">
+                        <span class="text-3xl">👩‍🏫</span>
+                        <h4 class="pixel-font text-4xl text-pixel-black">User Persona 2</h4>
+                    </div>
+                    <div class="persona-grid">
+                        <div>
+                            <div class="portrait-card">
+                                <div class="portrait-pixel portrait-teacher"></div>
+                                <div class="text-center px-3 py-2 bg-white/70 border-t-4 border-black text-sm">A teacher monitoring contribution and participation</div>
+                            </div>
+                            <div class="mt-4 border-4 border-black p-4 bg-parchment text-sm leading-7">
+                                <div><strong>Age:</strong> 38</div>
+                                <div><strong>Role:</strong> Course instructor</div>
+                                <div><strong>Focus:</strong> Team fairness and engagement</div>
+                                <div><strong>Need:</strong> Quick evidence of who contributes more</div>
+                            </div>
+                        </div>
+                        <div class="space-y-5">
+                            <div>
+                                <span class="stat-chip">leaderboard review</span>
+                                <span class="stat-chip">fair assessment</span>
+                                <span class="stat-chip">class engagement</span>
+                            </div>
+                            <div>
+                                <h5 class="pixel-font text-3xl text-tavern-wood mb-2">Goals</h5>
+                                <ul class="list-disc ml-5 text-sm leading-7">
+                                    <li>Identify highly contributing students efficiently.</li>
+                                    <li>Encourage wider participation across the team.</li>
+                                    <li>Use contribution records as supporting evidence for evaluation.</li>
+                                </ul>
+                            </div>
+                            <div>
+                                <h5 class="pixel-font text-3xl text-tavern-wood mb-2">Frustrations</h5>
+                                <ul class="list-disc ml-5 text-sm leading-7">
+                                    <li>Cannot easily judge invisible teamwork effort.</li>
+                                    <li>Students often claim unequal workload without proof.</li>
+                                    <li>Traditional tools show status, but not motivation quality.</li>
+                                </ul>
+                            </div>
+                            <div>
+                                <h5 class="pixel-font text-3xl text-tavern-wood mb-2">Motivation</h5>
+                                <div class="space-y-2 text-sm">
+                                    <div>Fairness<div class="mini-bar mt-1"><span style="width:88%"></span></div></div>
+                                    <div>Visibility<div class="mini-bar mt-1"><span style="width:82%"></span></div></div>
+                                    <div>Efficiency<div class="mini-bar mt-1"><span style="width:74%"></span></div></div>
+                                    <div>Control<div class="mini-bar mt-1"><span style="width:64%"></span></div></div>
+                                </div>
+                            </div>
+                            <div>
+                                <h5 class="pixel-font text-3xl text-tavern-wood mb-2">Bio</h5>
+                                <p class="text-sm leading-7">The teacher needs a lightweight but convincing way to inspect team collaboration. Through the leaderboard, the teacher can directly see students with higher contribution values, making the process of supervision and formative assessment more transparent.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="motivation" class="quest-card p-6 md:p-10">
+            <div class="flex flex-wrap items-center gap-4 mb-8 border-b-4 border-tavern-wood border-opacity-30 pb-4">
+                <span class="text-5xl">💡</span>
+                <h2 class="pixel-font text-5xl font-bold tracking-wider text-tavern-wood section-title">1. Motivation &amp; Research</h2>
+                <span class="pixel-badge">QUEST LOG</span>
+            </div>
+
+            <div class="section-stub"></div>
+        </section>
+
+        <section id="requirements" class="quest-card p-6 md:p-10">
+            <div class="flex flex-wrap items-center gap-4 mb-8 border-b-4 border-tavern-wood border-opacity-30 pb-4">
+                <span class="text-5xl">📜</span>
+                <h2 class="pixel-font text-5xl font-bold tracking-wider text-tavern-wood section-title">2. User Requirements</h2>
+                <span class="pixel-badge">PLAYER NEEDS</span>
+            </div>
+
+            <div class="section-stub"></div>
+        </section>
+
+        <section id="ideation" class="quest-card p-6 md:p-10">
+            <div class="flex flex-wrap items-center gap-4 mb-8 border-b-4 border-tavern-wood border-opacity-30 pb-4">
+                <span class="text-5xl">✏️</span>
+                <h2 class="pixel-font text-5xl font-bold tracking-wider text-tavern-wood section-title">3. Ideation &amp; Alternatives</h2>
+                <span class="pixel-badge">DESIGN LAB</span>
+            </div>
+
+            <div class="section-stub"></div>
+        </section>
+
+        <section id="technical" class="quest-card p-6 md:p-10">
+            <div class="flex flex-wrap items-center gap-4 mb-8 border-b-4 border-tavern-wood border-opacity-30 pb-4">
+                <span class="text-5xl">🛠️</span>
+                <h2 class="pixel-font text-5xl font-bold tracking-wider text-tavern-wood section-title">4. Technical Implementation</h2>
+                <span class="pixel-badge">BUILD MODE</span>
+            </div>
+
+            <div class="section-stub"></div>
+        </section>
+
+        <section id="evaluation" class="quest-card p-6 md:p-10">
+            <div class="flex flex-wrap items-center gap-4 mb-8 border-b-4 border-tavern-wood border-opacity-30 pb-4">
+                <span class="text-5xl">📊</span>
+                <h2 class="pixel-font text-5xl font-bold tracking-wider text-tavern-wood section-title">5. Evaluation &amp; Reflection</h2>
+                <span class="pixel-badge">PLAYTEST</span>
+            </div>
+
+            <div class="section-stub"></div>
+        </section>
+
+    </main>
+
+    <footer class="bg-tavern-wood text-white text-center py-8 mt-16 border-t-8 border-black border-opacity-10 relative z-10">
+        <div class="max-w-7xl mx-auto px-6">
+            <p class="pixel-font text-3xl tracking-wider">© 2026 The Homework Tavern Party</p>
+            <p class="text-sm mt-2 text-white/80">Process Portfolio Website hosted on GitHub Pages.</p>
+        </div>
+    </footer>
+
+</body>
+</html>
